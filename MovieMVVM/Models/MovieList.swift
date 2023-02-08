@@ -16,9 +16,9 @@ struct MovieList: Codable {
     /// Общее количество фильмов
     let totalResults: Int
 
-    // MARK: - Enum
+    // MARK: - Private Enum
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case page
         case movies = "results"
         case totalPages = "total_pages"

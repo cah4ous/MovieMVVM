@@ -22,9 +22,9 @@ struct Movie: Codable {
     /// Количество голосов
     let voteCount: Double
 
-    // MARK: - Enum
+    // MARK: - Private Enum
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case overview
         case posterPath = "poster_path"

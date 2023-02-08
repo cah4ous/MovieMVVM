@@ -82,13 +82,13 @@ final class DetailViewController: UIViewController {
         return movieRatingLabel
     }()
 
+    // MARK: - Public Properties
+    
+    var detailMovieViewModel: DetailMovieViewModel
+    
     // MARK: - Private Properties
 
     private var movieTitle: String = Constants.clearString
-
-    // MARK: - Public Properties
-
-    var detailMovieViewModel: DetailMovieViewModel
 
     // MARK: - Initializers
 

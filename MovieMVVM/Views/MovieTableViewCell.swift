@@ -46,7 +46,7 @@ final class MovieTableViewCell: UITableViewCell {
         static let movieRatingLabelBorderWidthValue = 3.0
     }
 
-    // MARK: - Public Visual Components
+    // MARK: - Private Visual Components
 
     private let movieImageView: UIImageView = {
         let movieImageView = UIImageView()

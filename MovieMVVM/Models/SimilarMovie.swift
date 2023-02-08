@@ -10,9 +10,9 @@ struct SimilarMovie: Codable {
     /// Постер похожего письма
     let posterPath: String
 
-    // MARK: - Enum
+    // MARK: - Private Enum
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case posterPath = "poster_path"
     }
 }

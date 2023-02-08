@@ -16,6 +16,9 @@ final class MoviesViewController: UIViewController {
         static let movieCellIdentifier = "MovieTableViewCell"
         static let defaultOrange = "defaultOrange"
         static let defaultBlack = "defaultBlack"
+        static let topRatedButtonText = "Топ"
+        static let comingSoonButtonText = "Cкоро"
+        static let movieTableViewIdentifier = "moviesTableViewIdentifier"
         static let popularButtonLeftAnchorValue = 15.0
         static let popularButtonWidthAnchorValue = 100.0
         static let popularButtonHeightAnchorValue = 50.0
@@ -34,9 +37,6 @@ final class MoviesViewController: UIViewController {
         static let tableViewRightAnchorValue = 0.0
         static let tableViewTopAnchorValue = 75.0
         static let tableViewBottomAnchorValue = 0.0
-        static let topRatedButtonText = "Топ"
-        static let comingSoonButtonText = "Cкоро"
-        static let movieTableViewIdentifier = "moviesTableViewIdentifier"
     }
 
     // MARK: Private Visual Components

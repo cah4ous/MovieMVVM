@@ -7,8 +7,11 @@ import UIKit
 final class MovieCoordinator: BaseCoordinator {
     // MARK: - Public Properties
 
-    var rootController: UINavigationController?
     var onFinishFlow: (() -> ())?
+
+    // MARK: - Private Properties
+
+    private var rootController: UINavigationController?
 
     // MARK: - Public Methods
 
