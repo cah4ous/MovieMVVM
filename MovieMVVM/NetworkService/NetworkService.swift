@@ -22,18 +22,7 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Public Methods
 
     func fetchMovies(categoryMovies: CategoryMovies, completion: @escaping (Result<[Movie], Error>) -> Void) {
-        var currentCategoryMovies = Constants.emptyText
-        switch categoryMovies {
-        case .topRated:
-            currentCategoryMovies = Constants.topRatedQueryText
-        case .popular:
-            currentCategoryMovies = Constants.popularQueryText
-        case .upcoming:
-            currentCategoryMovies = Constants.upcomingQueryText
-        }
-        let urlString =
-            "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
-            "\(Constants.languageQueryText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
+        let urlString = getCategoryURL(categoryMovies: categoryMovies)
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
             if error == nil {
@@ -54,9 +43,7 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchSimilarMovies(idMovie: Int, completion: @escaping ((Result<[SimilarMovie], Error>) -> Void)) {
-        let urlString =
-            "\(Constants.themoviedbQueryText)\(idMovie)\(Constants.similarQueryText)" +
-            "\(Constants.apiKeyQueryText)\(Constants.languageQueryText)\(Constants.pageQueryText)"
+        let urlString = getBaseUrl(currentCategoryMovies: "\(idMovie)")
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
             if error == nil {
@@ -69,7 +56,29 @@ final class NetworkService: NetworkServiceProtocol {
                 } catch {
                     completion(.failure(error))
                 }
+            } else {
+                guard let error = error else { return }
+                completion(.failure(error))
             }
         }.resume()
+    }
+
+    func getCategoryURL(categoryMovies: CategoryMovies) -> String {
+        var currentCategoryMovies = Constants.emptyText
+        switch categoryMovies {
+        case .topRated:
+            currentCategoryMovies = Constants.topRatedQueryText
+        case .popular:
+            currentCategoryMovies = Constants.popularQueryText
+        case .upcoming:
+            currentCategoryMovies = Constants.upcomingQueryText
+        }
+        let urlString = getBaseUrl(currentCategoryMovies: currentCategoryMovies)
+        return urlString
+    }
+
+    func getBaseUrl(currentCategoryMovies: String) -> String {
+        "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
+            "\(Constants.languageQueryText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
     }
 }

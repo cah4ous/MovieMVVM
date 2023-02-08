@@ -59,7 +59,7 @@ final class MoviesViewController: UIViewController {
 
     var toDetailMovie: ((Movie) -> ())?
     var movieViewModel: MoviesViewModelProtocol
-    var onFinishFlow: (() -> ())?
+    var onFinishFlow: VoidHandler?
     var listMoviesState: ListMoviesState = .initial {
         didSet {
             view.setNeedsLayout()
@@ -249,7 +249,6 @@ final class MoviesViewController: UIViewController {
         let backButtonItem = UIBarButtonItem()
         backButtonItem.tintColor = .orange
         backButtonItem.title = Constants.backBarButtonTitleText
-
         navigationItem.backBarButtonItem = backButtonItem
     }
 }

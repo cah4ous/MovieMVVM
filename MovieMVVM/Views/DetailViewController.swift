@@ -84,7 +84,7 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    var detailMovieViewModel: DetailMovieViewModel
+    var detailMovieViewModel: DetailMovieViewModelProtocol
 
     // MARK: - Private Properties
 
@@ -112,7 +112,9 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Private Methods
 
-    @objc private func shareButtonAction() {}
+    @objc private func shareButtonAction() {
+        showMovieActivity(movieName: movieTitle)
+    }
 
     private func initView() {
         detailMovieViewModel.mainPosterCompletion = { [weak self] result in
@@ -130,7 +132,7 @@ final class DetailViewController: UIViewController {
         }
         detailMovieViewModel.fetchMainPosterData()
         movieTitle = detailMovieViewModel.movie.title
-        movieRatingLabel.text = Constants.ratingText + "\(detailMovieViewModel.movie.voteAverage)"
+        movieRatingLabel.text = "\(Constants.ratingText)\(detailMovieViewModel.movie.voteAverage)"
         movieDescriptionLabel.text = detailMovieViewModel.movie.overview
     }
 
@@ -234,5 +236,14 @@ final class DetailViewController: UIViewController {
         shareButton.addTarget(self, action: #selector(shareButtonAction), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: shareButton)
         navigationItem.title = movieTitle
+    }
+}
+
+/// Расширение для расшаривания фильма
+extension DetailViewController {
+    func showMovieActivity(movieName: String) {
+        let items = [URL(string: movieName)]
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }

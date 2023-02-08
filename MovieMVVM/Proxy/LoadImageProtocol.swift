@@ -5,7 +5,5 @@ import Foundation
 
 /// Протокол загрузки изображений
 protocol LoadImageProtocol {
-    // MARK: - Public Methods
-
     func loadImage(path: String, completion: @escaping ((Result<Data, Error>) -> Void))
 }

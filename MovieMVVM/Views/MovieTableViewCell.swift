@@ -11,6 +11,7 @@ final class MovieTableViewCell: UITableViewCell {
         static let defaultOrange = "defaultOrange"
         static let error = "init(coder:) has not been implemented"
         static let firstPathOfUrlString = "https://image.tmdb.org/t/p/w200/"
+        static let placeHolderImageName = "xmark.app"
         static let movieNameLabelFontSizeValue = 19.0
         static let movieNameLabelNumberOfLinesValue = 2
         static let movieDescriptionLabelNumberOfLinesValue = 0
@@ -136,7 +137,7 @@ final class MovieTableViewCell: UITableViewCell {
             case let .success(data):
                 self.movieImageView.image = UIImage(data: data)
             case let .failure(error):
-                print(error.localizedDescription)
+                self.movieImageView.image = UIImage(systemName: Constants.placeHolderImageName)
             }
         })
     }

@@ -6,4 +6,5 @@ import UIKit
 /// Сборщик модулей
 protocol AssemblyBuilderProtocol {
     func makeMainModule() -> UIViewController
+    func makeDetailModule(movie: Movie) -> UIViewController
 }

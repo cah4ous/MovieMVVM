@@ -1,10 +1,10 @@
-// ImageFileManager.swift
+// FileManagerService.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
 /// Файловый менеджер
-final class ImageFileManager {
+final class FileManagerService: FileManagerProtocol {
     // MARK: - Private Properties
 
     private let tmpDirectory = FileManager.default.temporaryDirectory

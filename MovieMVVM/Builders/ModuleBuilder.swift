@@ -10,9 +10,9 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
     func makeMainModule() -> UIViewController {
         let networkService = NetworkService()
         let imageAPIService = ImageAPIService()
-        let fileManager = ImageFileManager()
+        let fileManagerService = FileManagerService()
         let proxy = Proxy(
-            fileManager: fileManager,
+            fileManager: fileManagerService,
             imageAPIService: imageAPIService
         )
         let imageService = ImageService(proxy: proxy)
@@ -24,11 +24,11 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
         return view
     }
 
-    func build(movie: Movie) -> UIViewController {
+    func makeDetailModule(movie: Movie) -> UIViewController {
         let networkService = NetworkService()
-        let fileManager = ImageFileManager()
+        let fileManagerService = FileManagerService()
         let imageAPIService = ImageAPIService()
-        let proxy = Proxy(fileManager: fileManager, imageAPIService: imageAPIService)
+        let proxy = Proxy(fileManager: fileManagerService, imageAPIService: imageAPIService)
         let imageService = ImageService(proxy: proxy)
         let detailMovieViewModel = DetailMovieViewModel(
             networkService: networkService,

@@ -7,7 +7,7 @@ import UIKit
 final class MovieCoordinator: BaseCoordinator {
     // MARK: - Public Properties
 
-    var onFinishFlow: (() -> ())?
+    var onFinishFlow: VoidHandler?
 
     // MARK: - Private Properties
 
@@ -26,7 +26,7 @@ final class MovieCoordinator: BaseCoordinator {
         guard let controller = controller as? MoviesViewController else { return }
 
         controller.toDetailMovie = { [weak self] movie in
-            let detailMovieViewController = ModuleBuilder().build(movie: movie)
+            let detailMovieViewController = ModuleBuilder().makeDetailModule(movie: movie)
             self?.rootController?.pushViewController(detailMovieViewController, animated: false)
         }
 
