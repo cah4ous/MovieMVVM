@@ -83,9 +83,9 @@ final class DetailViewController: UIViewController {
     }()
 
     // MARK: - Public Properties
-    
+
     var detailMovieViewModel: DetailMovieViewModel
-    
+
     // MARK: - Private Properties
 
     private var movieTitle: String = Constants.clearString

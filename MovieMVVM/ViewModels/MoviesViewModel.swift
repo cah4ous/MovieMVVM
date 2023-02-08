@@ -43,9 +43,9 @@ final class MoviesViewModel: MoviesViewModelProtocol {
             switch result {
             case let .success(movies):
                 self.movies = movies
-                self.listMoviesState?(.success)
-            case .failure:
-                self.listMoviesState?(.failure)
+                self.listMoviesState?(.success(movies))
+            case let .failure(error):
+                self.listMoviesState?(.failure(error))
             }
         }
     }

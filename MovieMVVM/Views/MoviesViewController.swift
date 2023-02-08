@@ -19,6 +19,8 @@ final class MoviesViewController: UIViewController {
         static let topRatedButtonText = "Топ"
         static let comingSoonButtonText = "Cкоро"
         static let movieTableViewIdentifier = "moviesTableViewIdentifier"
+        static let errorText = "Error"
+        static let okText = "Ok"
         static let popularButtonLeftAnchorValue = 15.0
         static let popularButtonWidthAnchorValue = 100.0
         static let popularButtonHeightAnchorValue = 50.0
@@ -96,7 +98,12 @@ final class MoviesViewController: UIViewController {
             mainActivityIndicatorView.stopAnimating()
             mainActivityIndicatorView.isHidden = true
             tableView.reloadData()
-        case .failure:
+        case let .failure(error):
+            showErrorAlert(
+                alertTitle: Constants.errorText,
+                message: error.localizedDescription,
+                actionTitle: Constants.okText
+            )
             mainActivityIndicatorView.stopAnimating()
             mainActivityIndicatorView.isHidden = true
         }
@@ -252,7 +259,10 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Public Methods
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        movieViewModel.movies.count
+        if case let .success(movies) = listMoviesState {
+            return movies.count
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -260,8 +270,10 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section < movieViewModel.movies.count, let toDetailMovie = toDetailMovie else { return }
-        toDetailMovie(movieViewModel.movies[indexPath.section])
+        guard let toDetailMovie = toDetailMovie else { return }
+        if case let .success(movies) = listMoviesState {
+            toDetailMovie(movies[indexPath.section])
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -270,7 +282,9 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
             as? MovieTableViewCell else { return UITableViewCell() }
         movieCell.accessibilityIdentifier = "\(indexPath.section)"
         movieViewModel.setupMovie(index: indexPath.section)
-        movieCell.configure(moviesViewModel: movieViewModel)
+        if case let .success(movies) = listMoviesState {
+            movieCell.configure(movie: movies[indexPath.section], moviesViewModel: movieViewModel)
+        }
 
         return movieCell
     }

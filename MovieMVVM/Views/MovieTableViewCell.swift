@@ -126,8 +126,7 @@ final class MovieTableViewCell: UITableViewCell {
         movieView.backgroundColor = UIColor(named: Constants.defaultOrange)
     }
 
-    func configure(moviesViewModel: MoviesViewModelProtocol) {
-        guard let movie = moviesViewModel.movie else { return }
+    func configure(movie: Movie, moviesViewModel: MoviesViewModelProtocol) {
         movieDescriptionLabel.text = movie.overview
         movieRatingLabel.text = "\(movie.voteAverage)"
         movieNameLabel.text = movie.title

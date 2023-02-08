@@ -7,6 +7,6 @@ import Foundation
 enum ListMoviesState {
     case initial
     case loading
-    case success
-    case failure
+    case success([Movie])
+    case failure(Error)
 }
