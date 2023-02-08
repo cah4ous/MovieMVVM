@@ -5,7 +5,12 @@ import UIKit
 
 /// SceneDelegate
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    // MARK: - Public Properties
+
     var window: UIWindow?
+    var coordinator: ApplicationCoordinator?
+
+    // MARK: - Public Methods
 
     func scene(
         _ scene: UIScene,
@@ -14,10 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-
-            window.rootViewController = UINavigationController(rootViewController: MoviesViewController())
-            self.window = window
-            window.makeKeyAndVisible()
+            coordinator = ApplicationCoordinator(window: window)
+            coordinator?.start()
         }
     }
 }
