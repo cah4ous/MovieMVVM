@@ -1,5 +1,5 @@
 // MoviesViewModelProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
@@ -7,15 +7,19 @@ import Foundation
 protocol MoviesViewModelProtocol {
     // MARK: - Public Properties
 
-    var movies: [Movie] { get set }
-    var movie: Movie? { get set }
+    var uploadApiKeyCompletion: (() -> ())? { get set }
+    var movies: [MovieData] { get set }
+    var movie: MovieData? { get set }
     var currentCategoryMovies: CategoryMovies { get set }
-    var listMoviesState: ((ListMoviesState) -> ())? { get set }
+    var listMoviesState: MoviesStateHandler? { get set }
 
     // MARK: - Public Methods
 
+    func uploadApiKey(_ key: String)
+    func loadMovies()
+    func checkApiKey()
     func fetchMovies()
-    func fetchData(completion: @escaping ((Result<Data, Error>) -> Void))
+    func fetchData(completion: @escaping DataHandler)
     func setupMovie(index: Int)
     func makeRefresh()
     func setupCategory(tag: Int)

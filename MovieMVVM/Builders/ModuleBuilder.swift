@@ -1,5 +1,5 @@
 // ModuleBuilder.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import UIKit
 
@@ -8,7 +8,8 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
     // MARK: - Public Methods
 
     func makeMainModule() -> UIViewController {
-        let networkService = NetworkService()
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let imageAPIService = ImageAPIService()
         let fileManagerService = FileManagerService()
         let proxy = Proxy(
@@ -24,8 +25,9 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
         return view
     }
 
-    func makeDetailModule(movie: Movie) -> UIViewController {
-        let networkService = NetworkService()
+    func makeDetailModule(movie: MovieData) -> UIViewController {
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let fileManagerService = FileManagerService()
         let imageAPIService = ImageAPIService()
         let proxy = Proxy(fileManager: fileManagerService, imageAPIService: imageAPIService)

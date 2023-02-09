@@ -1,5 +1,5 @@
 // DetailViewModelProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
@@ -8,17 +8,17 @@ protocol DetailMovieViewModelProtocol {
     // MARK: - Public Properties
 
     var similarMovies: [SimilarMovie] { get }
-    var movie: Movie { get }
+    var movie: MovieData { get }
     var posterPath: String { get }
-    var similarMoviesCompletion: ((Result<[SimilarMovie], Error>) -> Void)? { get set }
-    var similarPosterCompletion: ((Result<Data, Error>) -> Void)? { get set }
-    var mainPosterCompletion: ((Result<Data, Error>) -> Void)? { get set }
+    var similarMoviesCompletion: SimilarMoviesHandler? { get set }
+    var similarPosterCompletion: DataHandler? { get set }
+    var mainPosterCompletion: DataHandler? { get set }
 
     // MARK: - Public Methods
 
     func fetchMainPosterData()
     func fetchSimilarPosterData()
-    func setupSimilarPosterCompetion(completion: ((Result<Data, Error>) -> Void)?)
+    func setupSimilarPosterCompetion(completion: DataHandler?)
     func fetchSimilarMovies()
     func setupPoster(index: Int)
 }

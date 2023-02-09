@@ -1,5 +1,5 @@
 // NetworkService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
@@ -8,7 +8,7 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
-        static let apiKeyQueryText = "api_key=8216e974d625f2a458a739c20007dcd6"
+        static let apiKeyQueryText = "api_key="
         static let languageQueryText = "&language=ru-RU"
         static let pageQueryText = "&page=1"
         static let themoviedbQueryText = "https://api.themoviedb.org/3/movie/"
@@ -17,6 +17,16 @@ final class NetworkService: NetworkServiceProtocol {
         static let popularQueryText = "popular?"
         static let upcomingQueryText = "upcoming?"
         static let emptyText = ""
+    }
+
+    // MARK: - Private Properties
+
+    private var keychainService: KeychainServiceProtocol
+
+    // MARK: - Initializers
+
+    init(keychainService: KeychainServiceProtocol) {
+        self.keychainService = keychainService
     }
 
     // MARK: - Public Methods
@@ -78,7 +88,9 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func getBaseUrl(currentCategoryMovies: String) -> String {
-        "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
-            "\(Constants.languageQueryText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
+        guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return Constants.emptyText }
+        return "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
+            "\(APIKeyValue)"
+        "\(Constants.languageQueryText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
     }
 }

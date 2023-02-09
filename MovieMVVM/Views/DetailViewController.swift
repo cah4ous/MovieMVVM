@@ -1,5 +1,5 @@
 // DetailViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import UIKit
 
@@ -131,7 +131,7 @@ final class DetailViewController: UIViewController {
             }
         }
         detailMovieViewModel.fetchMainPosterData()
-        movieTitle = detailMovieViewModel.movie.title
+        movieTitle = detailMovieViewModel.movie.title ?? "nil"
         movieRatingLabel.text = "\(Constants.ratingText)\(detailMovieViewModel.movie.voteAverage)"
         movieDescriptionLabel.text = detailMovieViewModel.movie.overview
     }

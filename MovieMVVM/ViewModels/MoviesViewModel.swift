@@ -1,16 +1,26 @@
 // MoviesViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
 /// Вью-модель экрана со списком фильмов
 final class MoviesViewModel: MoviesViewModelProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let modelName = "MovieDataModel"
+        static let nilText = "nil"
+    }
+
     // MARK: - Public Properties
 
-    var movies: [Movie] = []
-    var movie: Movie?
+    var movies: [MovieData] = []
+    var movie: MovieData?
     var currentCategoryMovies: CategoryMovies = .popular
-    var listMoviesState: ((ListMoviesState) -> ())?
+    var listMoviesState: MoviesStateHandler?
+    var uploadApiKeyCompletion: VoidHandler?
+    var keychainService = KeychainService()
+    var coreDataStack = CoreDataService(modelName: Constants.modelName)
 
     // MARK: - Private Properties
 
@@ -26,9 +36,20 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
     // MARK: - Public Methods
 
-    func fetchData(completion: @escaping ((Result<Data, Error>) -> Void)) {
+    func checkApiKey() {
+        guard let apiKey = keychainService.getKey(forKey: KeychainKey.apiKey) else {
+            uploadApiKeyCompletion?()
+            return
+        }
+    }
+
+    func uploadApiKey(_ key: String) {
+        keychainService.saveKey(key, forKey: .apiKey)
+    }
+
+    func fetchData(completion: @escaping DataHandler) {
         guard let movie = movie else { return }
-        imageService.loadImage(path: movie.posterPath, completion: completion)
+        imageService.loadImage(path: movie.posterPath ?? Constants.nilText, completion: completion)
     }
 
     func setupMovie(index: Int) {
@@ -42,14 +63,27 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
     func fetchMovies() {
         listMoviesState?(.loading)
-        networkService.fetchMovies(categoryMovies: currentCategoryMovies) { result in
+        networkService.fetchMovies(categoryMovies: currentCategoryMovies) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(movies):
-                self.movies = movies
-                self.listMoviesState?(.success(movies))
+                self.coreDataStack.saveContext(movies: movies, movieCategory: self.currentCategoryMovies)
+                self.movies = self.coreDataStack.getData(movieType: self.currentCategoryMovies)
+                self.listMoviesState?(.success(self.movies))
             case let .failure(error):
                 self.listMoviesState?(.failure(error))
             }
+        }
+    }
+
+    func loadMovies() {
+        listMoviesState?(.loading)
+        let movies = coreDataStack.getData(movieType: currentCategoryMovies)
+        if !movies.isEmpty {
+            self.movies = movies
+            listMoviesState?(.success(movies))
+        } else {
+            fetchMovies()
         }
     }
 

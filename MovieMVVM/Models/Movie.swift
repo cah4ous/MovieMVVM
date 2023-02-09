@@ -1,5 +1,5 @@
 // Movie.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
@@ -8,7 +8,7 @@ struct Movie: Codable {
     // MARK: - Public Properties
 
     /// Идентификатор фильма
-    let id: Int
+    let movieId: Int
     /// Краткое описание фильма
     let overview: String
     /// Ссылка на постер фильма
@@ -25,7 +25,7 @@ struct Movie: Codable {
     // MARK: - Private Enum
 
     private enum CodingKeys: String, CodingKey {
-        case id
+        case movieId = "id"
         case overview
         case posterPath = "poster_path"
         case releaseDate = "release_date"
