@@ -9,5 +9,6 @@
 import CoreData
 import Foundation
 
+/// База данных
 @objc(MovieData)
 public class MovieData: NSManagedObject {}
