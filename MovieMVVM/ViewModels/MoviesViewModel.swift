@@ -8,7 +8,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
-        static let nilText = "nil"
+        static let emptyString = ""
     }
 
     // MARK: - Public Properties
@@ -16,6 +16,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     var movies: [MovieData] = []
     var movie: MovieData?
     var currentCategoryMovies: CategoryMovies = .popular
+    var errorCoreDataAlert: AlertHandler?
     var listMoviesState: MoviesStateHandler?
     var uploadApiKeyCompletion: VoidHandler?
 
@@ -55,7 +56,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
     func fetchData(completion: @escaping DataHandler) {
         guard let movie = movie else { return }
-        imageService.loadImage(path: movie.posterPath ?? Constants.nilText, completion: completion)
+        imageService.loadImage(path: movie.posterPath ?? Constants.emptyString, completion: completion)
     }
 
     func setupMovie(index: Int) {

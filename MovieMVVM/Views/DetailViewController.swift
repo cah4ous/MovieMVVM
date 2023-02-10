@@ -18,6 +18,7 @@ final class DetailViewController: UIViewController {
         static let fatalErrorText = "init(coder:) has not been implemented"
         static let errorText = "Error"
         static let okText = "Ok"
+        static let emptyString = ""
         static let watchButtonCornerRadiusValue = 9.0
         static let watchButtonBorderWidthValue = 1.0
         static let movieRatingLabelFontSizeValue = 25.0
@@ -131,7 +132,7 @@ final class DetailViewController: UIViewController {
             }
         }
         detailMovieViewModel.fetchMainPosterData()
-        movieTitle = detailMovieViewModel.movie.title ?? "nil"
+        movieTitle = detailMovieViewModel.movie.title ?? Constants.emptyString
         movieRatingLabel.text = "\(Constants.ratingText)\(detailMovieViewModel.movie.voteAverage)"
         movieDescriptionLabel.text = detailMovieViewModel.movie.overview
     }

@@ -1,10 +1,5 @@
-//
-//  MovieData+CoreDataProperties.swift
-//
-//
-//  Created by Александр Троицкий on 09.02.2023.
-//
-//
+// MovieData+CoreDataProperties.swift
+// Copyright © Alexandr T. All rights reserved.
 
 import CoreData
 import Foundation
@@ -12,7 +7,7 @@ import Foundation
 /// Информация о фильме
 public extension MovieData: Identifiable {
     @nonobjc class func fetchRequest() -> NSFetchRequest<MovieData> {
-        return NSFetchRequest<MovieData>(entityName: "MovieData")
+        NSFetchRequest<MovieData>(entityName: "MovieData")
     }
 
     /// Уникальный идентификатор

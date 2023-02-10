@@ -11,6 +11,7 @@ protocol MoviesViewModelProtocol {
     var movies: [MovieData] { get set }
     var movie: MovieData? { get set }
     var currentCategoryMovies: CategoryMovies { get set }
+    var errorCoreDataAlert: AlertHandler? { get set }
     var listMoviesState: MoviesStateHandler? { get set }
 
     // MARK: - Public Methods

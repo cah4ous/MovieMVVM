@@ -37,7 +37,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     func fetchMainPosterData() {
         guard let mainPosterCompletion = mainPosterCompletion else { return }
-        imageService.loadImage(path: movie.posterPath ?? "nil", completion: mainPosterCompletion)
+        imageService.loadImage(path: movie.posterPath ?? Constants.emptyString, completion: mainPosterCompletion)
     }
 
     func fetchSimilarPosterData() {

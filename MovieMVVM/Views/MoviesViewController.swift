@@ -24,6 +24,8 @@ final class MoviesViewController: UIViewController {
         static let okText = "Ok"
         static let alertTitleText = "Ключ API"
         static let alertMessageText = "Введите ключ от API"
+        static let alertTitle = "Ошибка"
+        static let alertActionTitle = "OK"
         static let popularButtonLeftAnchorValue = 15.0
         static let popularButtonWidthAnchorValue = 100.0
         static let popularButtonHeightAnchorValue = 50.0
@@ -87,7 +89,6 @@ final class MoviesViewController: UIViewController {
                 actionTitle: Constants.alertTitleText
             ) { key in
                 self.movieViewModel.uploadApiKey(key)
-                print(key)
             }
         }
     }
@@ -125,10 +126,27 @@ final class MoviesViewController: UIViewController {
         }
     }
 
+    func showAlertCoreData(error: String) {
+        showAlertController(
+            alertTitle: Constants.alertTitle,
+            alertMessage: error.localizedCapitalized,
+            alertActionTitle: Constants.alertActionTitle,
+            handler: nil
+        )
+    }
+
     // MARK: - Private Methods
 
     @objc private func handleRefreshAction() {
         refresherControl.endRefreshing()
+    }
+
+    private func coreDataAlert() {
+        movieViewModel.errorCoreDataAlert = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.showAlertCoreData(error: error)
+            }
+        }
     }
 
     private func initMethods() {

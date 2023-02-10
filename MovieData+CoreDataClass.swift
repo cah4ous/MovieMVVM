@@ -1,10 +1,5 @@
-//
-//  MovieData+CoreDataClass.swift
-//
-//
-//  Created by Александр Троицкий on 08.02.2023.
-//
-//
+// MovieData+CoreDataClass.swift
+// Copyright © Alexandr T. All rights reserved.
 
 import CoreData
 import Foundation

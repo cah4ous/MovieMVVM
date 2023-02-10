@@ -9,3 +9,4 @@ typealias DataHandler = (Result<Data, Error>) -> Void
 typealias MovieDataHandler = (MovieData) -> Void
 typealias MoviesStateHandler = (ListMoviesState) -> Void
 typealias SimilarMoviesHandler = (Result<[SimilarMovie], Error>) -> Void
+typealias AlertHandler = (String) -> Void

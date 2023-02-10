@@ -16,6 +16,7 @@ final class CoreDataService: CoreDataServiceProtocol {
     // MARK: - Public Properties
 
     lazy var managedContext: NSManagedObjectContext = self.storeContainer.viewContext
+    var errorCoreDataAlert: AlertHandler?
 
     // MARK: - Private Properties
 
@@ -25,7 +26,7 @@ final class CoreDataService: CoreDataServiceProtocol {
         let container = NSPersistentContainer(name: self.modelName)
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                print("\(Constants.errorPartText)\(error)\(error.userInfo)")
+                self.errorCoreDataAlert?(error.localizedDescription)
             }
         }
         return container
@@ -56,7 +57,7 @@ final class CoreDataService: CoreDataServiceProtocol {
             do {
                 try managedContext.save()
             } catch let error as NSError {
-                print("\(Constants.errorPartText)\(error)\(error.userInfo)")
+                errorCoreDataAlert?(error.localizedDescription)
             }
         }
     }
@@ -67,10 +68,9 @@ final class CoreDataService: CoreDataServiceProtocol {
         let fecthRequest: NSFetchRequest<MovieData> = MovieData.fetchRequest()
         fecthRequest.predicate = predicate
         do {
-            print(storeContainer.persistentStoreDescriptions.first?.url)
             movieObject = try managedContext.fetch(fecthRequest)
         } catch let error as NSError {
-            print(error.localizedDescription)
+            errorCoreDataAlert?(error.localizedDescription)
         }
         return movieObject
     }
