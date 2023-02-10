@@ -4,20 +4,21 @@
 import CoreData
 
 /// Сервис кордаты
-final class CoreDataService {
+final class CoreDataService: CoreDataServiceProtocol {
     // MARK: - Private Constants
+
     private enum Constants {
         static let errorPartText = "Unresolved error "
         static let entityName = "MovieData"
         static let predicateFormatText = "category = %@"
     }
-    
+
     // MARK: - Public Properties
-    
+
     lazy var managedContext: NSManagedObjectContext = self.storeContainer.viewContext
-    
+
     // MARK: - Private Properties
-    
+
     private let modelName: String
 
     private lazy var storeContainer: NSPersistentContainer = {
@@ -29,18 +30,18 @@ final class CoreDataService {
         }
         return container
     }()
-    
+
     // MARK: - Initializers
-    
+
     init(modelName: String) {
         self.modelName = modelName
     }
 
-
     // MARK: - Public Methods
 
     func saveContext(movies: [Movie], movieCategory: CategoryMovies) {
-        guard let newMovie = NSEntityDescription.entity(forEntityName: Constants.entityName, in: managedContext) else { return }
+        guard let newMovie = NSEntityDescription.entity(forEntityName: Constants.entityName, in: managedContext)
+        else { return }
         for movie in movies {
             let newMovie = MovieData(entity: newMovie, insertInto: managedContext)
             newMovie.title = movie.title
@@ -59,7 +60,7 @@ final class CoreDataService {
             }
         }
     }
-    
+
     func getData(movieType: CategoryMovies) -> [MovieData] {
         var movieObject: [MovieData] = []
         let predicate = NSPredicate(format: Constants.predicateFormatText, movieType.category)

@@ -40,6 +40,7 @@
 		71962CCB2992C4B0006D02E3 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71962CCA2992C4B0006D02E3 /* ImageService.swift */; };
 		71962CCD2992C627006D02E3 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71962CCC2992C627006D02E3 /* ApplicationCoordinator.swift */; };
 		719C59DF29091D12000D85F5 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719C59DE29091D12000D85F5 /* Movie.swift */; };
+		71A102352996330C00791353 /* CoreDataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A102342996330C00791353 /* CoreDataServiceProtocol.swift */; };
 		71A9161F2993E9CA00EED26F /* KeychainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9161E2993E9CA00EED26F /* KeychainServiceProtocol.swift */; };
 		71A916202993EBD500EED26F /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A67A6629939C1400695679 /* KeychainService.swift */; };
 		71BB8556299430E800552EDC /* MovieDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 71BB8554299430E800552EDC /* MovieDataModel.xcdatamodeld */; };
@@ -87,6 +88,7 @@
 		71962CCA2992C4B0006D02E3 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		71962CCC2992C627006D02E3 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		719C59DE29091D12000D85F5 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		71A102342996330C00791353 /* CoreDataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceProtocol.swift; sourceTree = "<group>"; };
 		71A67A6629939C1400695679 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		71A9161E2993E9CA00EED26F /* KeychainServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceProtocol.swift; sourceTree = "<group>"; };
 		71BB8555299430E800552EDC /* MovieData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieData.xcdatamodel; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 		717C38DD2994241C00A7396D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				71A102342996330C00791353 /* CoreDataServiceProtocol.swift */,
 				717C38DE299424C900A7396D /* CoreDataService.swift */,
 			);
 			path = CoreData;
@@ -486,6 +489,7 @@
 				71EEE0CD29935EEE00196C31 /* DetailViewModel.swift in Sources */,
 				71962CBE29929DC5006D02E3 /* LoadImageProtocol.swift in Sources */,
 				71962CC02992ACC3006D02E3 /* CategoryMovies.swift in Sources */,
+				71A102352996330C00791353 /* CoreDataServiceProtocol.swift in Sources */,
 				719C59DF29091D12000D85F5 /* Movie.swift in Sources */,
 				71962CBA29929D82006D02E3 /* FileManagerService.swift in Sources */,
 			);

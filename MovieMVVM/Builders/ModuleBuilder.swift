@@ -5,6 +5,12 @@ import UIKit
 
 /// Сборщик экранов
 final class ModuleBuilder: AssemblyBuilderProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let coreDataModelName = "MovieDataModel"
+    }
+
     // MARK: - Public Methods
 
     func makeMainModule() -> UIViewController {
@@ -12,6 +18,7 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
         let networkService = NetworkService(keychainService: keychainService)
         let imageAPIService = ImageAPIService()
         let fileManagerService = FileManagerService()
+        let coreDataStack = CoreDataService(modelName: Constants.coreDataModelName)
         let proxy = Proxy(
             fileManager: fileManagerService,
             imageAPIService: imageAPIService
@@ -19,7 +26,9 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
         let imageService = ImageService(proxy: proxy)
         let viewModel = MoviesViewModel(
             networkService: networkService,
-            imageService: imageService
+            imageService: imageService,
+            keychainService: keychainService,
+            coreDataStack: coreDataStack
         )
         let view = MoviesViewController(movieViewModel: viewModel)
         return view

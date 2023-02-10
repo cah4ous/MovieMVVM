@@ -8,7 +8,6 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
-        static let modelName = "MovieDataModel"
         static let nilText = "nil"
     }
 
@@ -19,19 +18,26 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     var currentCategoryMovies: CategoryMovies = .popular
     var listMoviesState: MoviesStateHandler?
     var uploadApiKeyCompletion: VoidHandler?
-    var keychainService = KeychainService()
-    var coreDataStack = CoreDataService(modelName: Constants.modelName)
 
     // MARK: - Private Properties
 
     private var networkService: NetworkServiceProtocol
     private var imageService: LoadImageProtocol
+    private var keychainService: KeychainServiceProtocol
+    private var coreDataStack: CoreDataServiceProtocol
 
     // MARK: - Initializers
 
-    init(networkService: NetworkService, imageService: LoadImageProtocol) {
+    init(
+        networkService: NetworkService,
+        imageService: LoadImageProtocol,
+        keychainService: KeychainServiceProtocol,
+        coreDataStack: CoreDataServiceProtocol
+    ) {
         self.networkService = networkService
         self.imageService = imageService
+        self.keychainService = keychainService
+        self.coreDataStack = coreDataStack
     }
 
     // MARK: - Public Methods

@@ -7,7 +7,7 @@ import Foundation
 protocol MoviesViewModelProtocol {
     // MARK: - Public Properties
 
-    var uploadApiKeyCompletion: (() -> ())? { get set }
+    var uploadApiKeyCompletion: VoidHandler? { get set }
     var movies: [MovieData] { get set }
     var movie: MovieData? { get set }
     var currentCategoryMovies: CategoryMovies { get set }
