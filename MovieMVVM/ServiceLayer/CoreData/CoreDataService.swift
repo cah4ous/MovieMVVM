@@ -63,15 +63,15 @@ final class CoreDataService: CoreDataServiceProtocol {
     }
 
     func getData(movieType: CategoryMovies) -> [MovieData] {
-        var movieObject: [MovieData] = []
+        var movieObjects: [MovieData] = []
         let predicate = NSPredicate(format: Constants.predicateFormatText, movieType.category)
         let fecthRequest: NSFetchRequest<MovieData> = MovieData.fetchRequest()
         fecthRequest.predicate = predicate
         do {
-            movieObject = try managedContext.fetch(fecthRequest)
+            movieObjects = try managedContext.fetch(fecthRequest)
         } catch let error as NSError {
             errorCoreDataAlert?(error.localizedDescription)
         }
-        return movieObject
+        return movieObjects
     }
 }

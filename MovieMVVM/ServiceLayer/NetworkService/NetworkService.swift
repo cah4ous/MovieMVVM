@@ -39,7 +39,7 @@ final class NetworkService: NetworkServiceProtocol {
     func fetchMovies(categoryMovies: CategoryMovies, completion: @escaping (Result<[Movie], Error>) -> Void) {
         guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return }
         let currentMoviesString = getCategoryURL(categoryMovies: categoryMovies)
-        guard var urlComponents = URLComponents(string: Constants.themoviedbQueryText + currentMoviesString)
+        guard var urlComponents = URLComponents(string: "\(Constants.themoviedbQueryText)\(currentMoviesString)")
         else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: Constants.APIKey, value: APIKeyValue),
@@ -96,16 +96,19 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Private Methods
 
     private func getCategoryURL(categoryMovies: CategoryMovies) -> String {
-        var currentCategoryMovies = Constants.emptyText
-        switch categoryMovies {
-        case .topRated:
-            currentCategoryMovies = Constants.topRatedQueryText
-        case .popular:
-            currentCategoryMovies = Constants.popularQueryText
-        case .upcoming:
-            currentCategoryMovies = Constants.upcomingQueryText
-        }
+        var currentCategoryMovies = getCategoryString(categoryMovies: categoryMovies)
         let urlString = getBaseUrl(currentCategoryMovies: currentCategoryMovies)
         return urlString
+    }
+    
+    private func getCategoryString(categoryMovies: CategoryMovies) -> String {
+        switch categoryMovies {
+        case .topRated:
+            return Constants.topRatedQueryText
+        case .popular:
+            return Constants.popularQueryText
+        case .upcoming:
+            return Constants.upcomingQueryText
+        }
     }
 }
