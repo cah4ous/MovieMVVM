@@ -1,5 +1,5 @@
 // ListMoviesStates.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
@@ -7,6 +7,6 @@ import Foundation
 enum ListMoviesState {
     case initial
     case loading
-    case success([Movie])
+    case success([MovieData])
     case failure(Error)
 }

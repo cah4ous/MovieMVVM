@@ -1,6 +1,7 @@
 // MoviesViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
+import CoreData
 import UIKit
 
 /// Экран фильмов
@@ -21,6 +22,10 @@ final class MoviesViewController: UIViewController {
         static let movieTableViewIdentifier = "moviesTableViewIdentifier"
         static let errorText = "Error"
         static let okText = "Ok"
+        static let alertTitleText = "Ключ API"
+        static let alertMessageText = "Введите ключ от API"
+        static let alertTitle = "Ошибка"
+        static let alertActionTitle = "OK"
         static let popularButtonLeftAnchorValue = 15.0
         static let popularButtonWidthAnchorValue = 100.0
         static let popularButtonHeightAnchorValue = 50.0
@@ -57,9 +62,10 @@ final class MoviesViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    var toDetailMovie: ((Movie) -> ())?
+    var toDetailMovie: MovieDataHandler?
     var movieViewModel: MoviesViewModelProtocol
     var onFinishFlow: VoidHandler?
+    var uplooadNewKeychainValue: VoidHandler?
     var listMoviesState: ListMoviesState = .initial {
         didSet {
             view.setNeedsLayout()
@@ -75,6 +81,16 @@ final class MoviesViewController: UIViewController {
     init(movieViewModel: MoviesViewModel) {
         self.movieViewModel = movieViewModel
         super.init(nibName: nil, bundle: nil)
+        movieViewModel.uploadApiKeyCompletion = { [weak self] in
+            guard let self = self else { return }
+            self.showAlert(
+                title: Constants.alertTitleText,
+                message: Constants.alertMessageText,
+                actionTitle: Constants.alertTitleText
+            ) { key in
+                self.movieViewModel.uploadApiKey(key)
+            }
+        }
     }
 
     @available(*, unavailable)
@@ -88,10 +104,11 @@ final class MoviesViewController: UIViewController {
         super.viewWillLayoutSubviews()
         switch listMoviesState {
         case .initial:
+            movieViewModel.checkApiKey()
             initMethods()
-            movieViewModel.fetchMovies()
+            movieViewModel.loadMovies()
         case .loading:
-            movieViewModel.fetchMovies()
+            movieViewModel.loadMovies()
             mainActivityIndicatorView.startAnimating()
             mainActivityIndicatorView.isHidden = false
         case .success:
@@ -109,10 +126,27 @@ final class MoviesViewController: UIViewController {
         }
     }
 
+    func showAlertCoreData(error: String) {
+        showAlertController(
+            alertTitle: Constants.alertTitle,
+            alertMessage: error.localizedCapitalized,
+            alertActionTitle: Constants.alertActionTitle,
+            handler: nil
+        )
+    }
+
     // MARK: - Private Methods
 
     @objc private func handleRefreshAction() {
         refresherControl.endRefreshing()
+    }
+
+    private func coreDataAlert() {
+        movieViewModel.errorCoreDataAlert = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.showAlertCoreData(error: error)
+            }
+        }
     }
 
     private func initMethods() {

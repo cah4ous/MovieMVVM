@@ -1,5 +1,5 @@
 // MovieTableViewCell.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import UIKit
 
@@ -127,7 +127,7 @@ final class MovieTableViewCell: UITableViewCell {
         movieView.backgroundColor = UIColor(named: Constants.defaultOrange)
     }
 
-    func configure(movie: Movie, moviesViewModel: MoviesViewModelProtocol) {
+    func configure(movie: MovieData, moviesViewModel: MoviesViewModelProtocol) {
         movieDescriptionLabel.text = movie.overview
         movieRatingLabel.text = "\(movie.voteAverage)"
         movieNameLabel.text = movie.title

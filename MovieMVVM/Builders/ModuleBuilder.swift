@@ -1,16 +1,24 @@
 // ModuleBuilder.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import UIKit
 
 /// Сборщик экранов
 final class ModuleBuilder: AssemblyBuilderProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let coreDataModelName = "MovieDataModel"
+    }
+
     // MARK: - Public Methods
 
     func makeMainModule() -> UIViewController {
-        let networkService = NetworkService()
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let imageAPIService = ImageAPIService()
         let fileManagerService = FileManagerService()
+        let coreDataStack = CoreDataService(modelName: Constants.coreDataModelName)
         let proxy = Proxy(
             fileManager: fileManagerService,
             imageAPIService: imageAPIService
@@ -18,14 +26,17 @@ final class ModuleBuilder: AssemblyBuilderProtocol {
         let imageService = ImageService(proxy: proxy)
         let viewModel = MoviesViewModel(
             networkService: networkService,
-            imageService: imageService
+            imageService: imageService,
+            keychainService: keychainService,
+            coreDataStack: coreDataStack
         )
         let view = MoviesViewController(movieViewModel: viewModel)
         return view
     }
 
-    func makeDetailModule(movie: Movie) -> UIViewController {
-        let networkService = NetworkService()
+    func makeDetailModule(movie: MovieData) -> UIViewController {
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let fileManagerService = FileManagerService()
         let imageAPIService = ImageAPIService()
         let proxy = Proxy(fileManager: fileManagerService, imageAPIService: imageAPIService)

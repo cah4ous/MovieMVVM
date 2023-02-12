@@ -1,18 +1,24 @@
 // DetailViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Alexandr T. All rights reserved.
 
 import Foundation
 
 /// Вью-модель экрана с выбранным фильмом
 final class DetailMovieViewModel: DetailMovieViewModelProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let emptyString = ""
+    }
+
     // MARK: - Public Properties
 
     var similarMovies: [SimilarMovie] = []
-    var movie: Movie
-    var posterPath = ""
-    var similarMoviesCompletion: ((Result<[SimilarMovie], Error>) -> Void)?
-    var similarPosterCompletion: ((Result<Data, Error>) -> Void)?
-    var mainPosterCompletion: ((Result<Data, Error>) -> Void)?
+    var movie: MovieData
+    var posterPath = Constants.emptyString
+    var similarMoviesCompletion: SimilarMoviesHandler?
+    var similarPosterCompletion: DataHandler?
+    var mainPosterCompletion: DataHandler?
 
     // MARK: - Private Properties
 
@@ -21,7 +27,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     // MARK: - Initializers
 
-    init(networkService: NetworkService, imageService: LoadImageProtocol, movie: Movie) {
+    init(networkService: NetworkService, imageService: LoadImageProtocol, movie: MovieData) {
         self.networkService = networkService
         self.imageService = imageService
         self.movie = movie
@@ -31,7 +37,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     func fetchMainPosterData() {
         guard let mainPosterCompletion = mainPosterCompletion else { return }
-        imageService.loadImage(path: movie.posterPath, completion: mainPosterCompletion)
+        imageService.loadImage(path: movie.posterPath ?? Constants.emptyString, completion: mainPosterCompletion)
     }
 
     func fetchSimilarPosterData() {
@@ -41,7 +47,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     func fetchSimilarMovies() {
         guard let similarMoviesCompletion = similarMoviesCompletion else { return }
-        networkService.fetchSimilarMovies(idMovie: movie.id) { [weak self] result in
+        networkService.fetchSimilarMovies(idMovie: Int(movie.movieId)) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
