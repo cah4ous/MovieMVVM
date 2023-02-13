@@ -6,23 +6,51 @@ import UIKit
 
 /// Мок сетевого слоя
 final class MockNetworkService: NetworkServiceProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let emptyString = ""
+        static let mockValue = 1.3
+        static let movieId = 0
+    }
+
+    // MARK: - Public Methods
+
     var keychainService: KeychainServiceProtocol
 
     var movie: [Movie]? = [
-        Movie(movieId: 0, overview: "", posterPath: "", releaseDate: "", title: "", voteAverage: 1.3, voteCount: 2.3),
-        Movie(movieId: 0, overview: "", posterPath: "", releaseDate: "", title: "", voteAverage: 1.3, voteCount: 2.3),
-        Movie(movieId: 0, overview: "", posterPath: "", releaseDate: "", title: "", voteAverage: 1.3, voteCount: 2.3),
-        Movie(movieId: 0, overview: "", posterPath: "", releaseDate: "", title: "", voteAverage: 1.3, voteCount: 2.3),
+        Movie(
+            movieId: Constants.movieId,
+            overview: Constants.emptyString,
+            posterPath: Constants.emptyString,
+            releaseDate: Constants.emptyString,
+            title: Constants.emptyString,
+            voteAverage: Constants.mockValue,
+            voteCount: Constants.mockValue
+        ),
+        Movie(
+            movieId: Constants.movieId,
+            overview: Constants.emptyString,
+            posterPath: Constants.emptyString,
+            releaseDate: Constants.emptyString,
+            title: Constants.emptyString,
+            voteAverage: Constants.mockValue,
+            voteCount: Constants.mockValue
+        )
     ]
 
     var similarMovies: [SimilarMovie]? = [
-        SimilarMovie(posterPath: ""),
-        SimilarMovie(posterPath: ""),
+        SimilarMovie(posterPath: Constants.emptyString),
+        SimilarMovie(posterPath: Constants.emptyString),
     ]
+
+    // MARK: - Initializers
 
     init(keychainService: KeychainServiceProtocol) {
         self.keychainService = keychainService
     }
+
+    // MARK: - Public Methods
 
     func fetchMovies(
         categoryMovies: MovieMVVM.CategoryMovies,
@@ -31,7 +59,7 @@ final class MockNetworkService: NetworkServiceProtocol {
         if let movie = movie {
             completion(.success(movie))
         } else {
-            let error = NSError(domain: "", code: .zero)
+            let error = NSError(domain: Constants.emptyString, code: .zero)
             completion(.failure(error))
         }
     }
@@ -40,7 +68,7 @@ final class MockNetworkService: NetworkServiceProtocol {
         if let similarMovie = similarMovies {
             completion(.success(similarMovie))
         } else {
-            let error = NSError(domain: "", code: .zero)
+            let error = NSError(domain: Constants.emptyString, code: .zero)
             completion(.failure(error))
         }
     }

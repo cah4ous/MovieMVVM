@@ -40,6 +40,7 @@ final class DetailViewModelTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         guard let newMovie = NSEntityDescription.entity(forEntityName: Constants.entityName, in: managedContext)
         else { return }
         let film = MovieData(entity: newMovie, insertInto: managedContext)
@@ -51,6 +52,7 @@ final class DetailViewModelTests: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
         detailMovieViewModel = nil
     }
 

@@ -5,11 +5,22 @@ import XCTest
 
 /// Запуск UI фильмов тестов
 final class MovieHWUITestsLaunchTests: XCTestCase {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let launchScreenName = "Launch Screen"
+    }
+
+    // MARK: - Public Properties
+
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
 
-    override func setUpWithError() throws {
+    // MARK: - Public Methods
+
+    override func setUp() {
+        super.setUp()
         continueAfterFailure = false
     }
 
@@ -17,7 +28,7 @@ final class MovieHWUITestsLaunchTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "Launch Screen"
+        attachment.name = Constants.launchScreenName
         attachment.lifetime = .keepAlways
         add(attachment)
     }

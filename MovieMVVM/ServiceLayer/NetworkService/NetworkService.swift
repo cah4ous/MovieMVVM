@@ -89,8 +89,6 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getBaseUrl(currentCategoryMovies: String) -> String {
         guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return Constants.emptyText }
-        return "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
-            "8216e974d625f2a458a739c20007dcd6"
-        "\(Constants.languageQueryText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
+        return "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)\(APIKeyValue)"
     }
 }

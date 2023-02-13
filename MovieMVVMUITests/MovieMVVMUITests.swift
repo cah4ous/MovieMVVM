@@ -14,11 +14,10 @@ final class MovieHWUITests: XCTestCase {
 
     // MARK: - Pulic Methods
 
-    override func setUpWithError() throws {
+    override func setUp() {
+        super.setUp()
         continueAfterFailure = false
     }
-
-    override func tearDownWithError() throws {}
 
     func testExample() throws {
         let app = XCUIApplication()

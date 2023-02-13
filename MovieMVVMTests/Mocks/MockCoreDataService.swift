@@ -16,6 +16,7 @@ final class MockCoreDataService: CoreDataServiceProtocol {
         static let mockDoubleValue = 3.0
         static let entityName = "MovieData"
         static let predicateFormatText = "category = %@"
+        static let movieDataModelName = "MovieDataModel"
     }
 
     // MARK: - Public Properties
@@ -27,16 +28,6 @@ final class MockCoreDataService: CoreDataServiceProtocol {
 
     // MARK: - Private Properties
 
-    private lazy var storeContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "MovieDataModel")
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                self.errorCoreDataAlert?(error.localizedDescription)
-            }
-        }
-        return container
-    }()
-
     private let mockMovies = [Movie(
         movieId: Constants.mockId,
         overview: Constants.emptyString,
@@ -47,6 +38,18 @@ final class MockCoreDataService: CoreDataServiceProtocol {
         voteCount: Constants.mockDoubleValue
     )]
     private let mockSimilarMovies = [SimilarMovie(posterPath: Constants.mockPosterPath)]
+
+    private lazy var storeContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: Constants.movieDataModelName)
+        container.loadPersistentStores { _, error in
+            if let error = error as NSError? {
+                self.errorCoreDataAlert?(error.localizedDescription)
+            }
+        }
+        return container
+    }()
+
+    // MARK: - Public Methods
 
     func saveContext(movies: [MovieMVVM.Movie], movieCategory: MovieMVVM.CategoryMovies) {
         self.movies = movies

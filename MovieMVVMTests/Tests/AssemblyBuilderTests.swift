@@ -18,11 +18,15 @@ final class AssemblyBuilderTests: XCTestCase {
 
     private var assemblyBuilder: AssemblyBuilderProtocol?
 
+    // MARK: - Public Methods
+
     override func setUp() {
+        super.setUp()
         assemblyBuilder = ModuleBuilder()
     }
 
     override func tearDown() {
+        super.tearDown()
         assemblyBuilder = nil
     }
 

@@ -13,11 +13,15 @@ final class BaseCoordinatorTests: XCTestCase {
 
     private var baseCoordinator: BaseCoordinator?
 
+    // MARK: - Public Methods
+
     override func setUp() {
+        super.setUp()
         baseCoordinator = BaseCoordinator(window: UIWindow())
     }
 
     override func tearDown() {
+        super.tearDown()
         baseCoordinator = nil
     }
 
