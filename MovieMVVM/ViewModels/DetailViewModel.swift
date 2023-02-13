@@ -27,7 +27,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     // MARK: - Initializers
 
-    init(networkService: NetworkService, imageService: LoadImageProtocol, movie: MovieData) {
+    init(networkService: NetworkServiceProtocol, imageService: LoadImageProtocol, movie: MovieData) {
         self.networkService = networkService
         self.imageService = imageService
         self.movie = movie
