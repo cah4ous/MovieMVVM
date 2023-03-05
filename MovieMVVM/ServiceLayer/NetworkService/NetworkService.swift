@@ -9,13 +9,8 @@ final class NetworkService: NetworkServiceProtocol {
 
     private enum Constants {
         static let apiKeyQueryText = "api_key="
-        static let languageText = "&language=ru-RU"
-        static let languageQueryValue = "language"
-        static let languageQueryKey = "ru-RU"
+        static let languageQueryText = "&language=ru-RU"
         static let pageQueryText = "&page=1"
-        static let pageKey = "page"
-        static let pageValue = "1"
-        static let APIKey = "api_key"
         static let themoviedbQueryText = "https://api.themoviedb.org/3/movie/"
         static let similarQueryText = "/similar?"
         static let topRatedQueryText = "top_rated?"
@@ -37,16 +32,8 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Public Methods
 
     func fetchMovies(categoryMovies: CategoryMovies, completion: @escaping (Result<[Movie], Error>) -> Void) {
-        guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return }
-        let currentMoviesString = getCategoryURL(categoryMovies: categoryMovies)
-        guard var urlComponents = URLComponents(string: "\(Constants.themoviedbQueryText)\(currentMoviesString)")
-        else { return }
-        urlComponents.queryItems = [
-            URLQueryItem(name: Constants.APIKey, value: APIKeyValue),
-            URLQueryItem(name: Constants.languageQueryKey, value: Constants.languageQueryValue),
-            URLQueryItem(name: Constants.pageKey, value: Constants.pageValue)
-        ]
-        guard let url = urlComponents.url else { return }
+        let urlString = getCategoryURL(categoryMovies: categoryMovies)
+        guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
             if error == nil {
                 guard let data = data else { return }
@@ -86,29 +73,22 @@ final class NetworkService: NetworkServiceProtocol {
         }.resume()
     }
 
-    func getBaseUrl(currentCategoryMovies: String) -> String {
-        guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return Constants.emptyText }
-        return "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)" +
-            "\(APIKeyValue)"
-        "\(Constants.languageText)\(Constants.pageQueryText)\(Constants.pageQueryText)"
-    }
-
-    // MARK: - Private Methods
-
-    private func getCategoryURL(categoryMovies: CategoryMovies) -> String {
-        var currentCategoryMovies = getCategoryString(categoryMovies: categoryMovies)
+    func getCategoryURL(categoryMovies: CategoryMovies) -> String {
+        var currentCategoryMovies = Constants.emptyText
+        switch categoryMovies {
+        case .topRated:
+            currentCategoryMovies = Constants.topRatedQueryText
+        case .popular:
+            currentCategoryMovies = Constants.popularQueryText
+        case .upcoming:
+            currentCategoryMovies = Constants.upcomingQueryText
+        }
         let urlString = getBaseUrl(currentCategoryMovies: currentCategoryMovies)
         return urlString
     }
-    
-    private func getCategoryString(categoryMovies: CategoryMovies) -> String {
-        switch categoryMovies {
-        case .topRated:
-            return Constants.topRatedQueryText
-        case .popular:
-            return Constants.popularQueryText
-        case .upcoming:
-            return Constants.upcomingQueryText
-        }
+
+    func getBaseUrl(currentCategoryMovies: String) -> String {
+        guard let APIKeyValue = keychainService.getKey(forKey: KeychainKey.apiKey) else { return Constants.emptyText }
+        return "\(Constants.themoviedbQueryText)\(currentCategoryMovies)\(Constants.apiKeyQueryText)\(APIKeyValue)"
     }
 }

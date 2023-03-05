@@ -30,7 +30,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     // MARK: - Initializers
 
     init(
-        networkService: NetworkService,
+        networkService: NetworkServiceProtocol,
         imageService: LoadImageProtocol,
         keychainService: KeychainServiceProtocol,
         coreDataStack: CoreDataServiceProtocol
